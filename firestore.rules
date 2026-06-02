@@ -1,0 +1,14 @@
+// firestore.rules
+// Paste these into Firebase Console → Firestore → Rules
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Each user can only read/write their own document
+    match /tef_users/{userId} {
+      allow read, write: if true; // Open for now since we have no auth
+      // Once you've confirmed it works, tighten to:
+      // allow read, write: if request.time < timestamp.date(2026, 11, 1);
+    }
+  }
+}
