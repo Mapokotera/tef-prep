@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TEF Canada — CLB 7 Prep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0f14;--bg2:#13161e;--bg3:#1a1d28;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);--text:#e8eaf0;--text2:#8b8fa8;--text3:#555870;--accent:#4f8ef7;--accent2:#6ba3ff;--green:#3ecf8e;--amber:#f5a623;--red:#f06060;--purple:#9b7fe8;--teal:#3ecfcf;--card-r:16px;--font-display:'DM Serif Display',serif;--font-body:'Outfit',sans-serif;--font-mono:'DM Mono',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:15px;line-height:1.6;min-height:100vh;overflow-x:hidden}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(13,15,20,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:56px;display:flex;align-items:center;padding:0 20px;gap:0}
+.nav-brand{font-family:var(--font-display);font-size:20px;color:var(--text);white-space:nowrap;margin-right:16px}
+.nav-brand span{color:var(--accent)}
+.nav-links{display:flex;gap:2px;flex:1;overflow-x:auto}
+.nav-link{padding:6px 12px;border-radius:8px;color:var(--text2);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;white-space:nowrap;background:none;border:none;font-family:var(--font-body)}
+.nav-link:hover{color:var(--text);background:rgba(255,255,255,0.05)}
+.nav-link.active{color:var(--accent2);background:rgba(79,142,247,0.12)}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.countdown-nav{font-family:var(--font-mono);font-size:12px;color:var(--amber);background:rgba(245,166,35,0.1);padding:4px 10px;border-radius:6px;border:1px solid rgba(245,166,35,0.2);white-space:nowrap}
+.sync-dot{font-size:9px;color:#4B5563}
+/* hamburger */
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:none;border:none}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text2);border-radius:2px;transition:all .2s}
+.mobile-menu{display:none;position:fixed;top:56px;left:0;right:0;background:rgba(13,15,20,0.98);border-bottom:1px solid var(--border);z-index:99;padding:12px;flex-direction:column;gap:4px}
+.mobile-menu.open{display:flex}
+.mobile-nav-link{padding:12px 16px;border-radius:10px;color:var(--text2);font-size:14px;font-weight:500;cursor:pointer;background:none;border:none;font-family:var(--font-body);text-align:left;width:100%}
+.mobile-nav-link:hover{background:rgba(255,255,255,0.05);color:var(--text)}
+.mobile-nav-link.active{color:var(--accent2);background:rgba(79,142,247,0.1)}
+@media(max-width:700px){.nav-links{display:none}.hamburger{display:flex}.countdown-nav{font-size:11px;padding:3px 7px}}
+
+/* ── LAYOUT ── */
+.page{display:none;padding:76px 20px 48px;max-width:960px;margin:0 auto;animation:fadeIn .2s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── CARDS ── */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--card-r);padding:22px}
+.card-sm{padding:14px 18px}
+.card-title{font-family:var(--font-display);font-size:20px;color:var(--text)}
+.card-sub{font-size:13px;color:var(--text2);margin-top:2px}
+
+/* ── GOAL PROGRESS BAR ── */
+.goal-bar{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px 18px;margin-bottom:16px}
+.goal-bar-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.goal-bar-label{font-size:13px;font-weight:500;color:var(--text2)}
+.goal-bar-count{font-family:var(--font-mono);font-size:13px;color:var(--amber)}
+.goal-bar-count.done{color:var(--green)}
+.progress-track{height:7px;background:var(--bg3);border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;border-radius:4px;transition:width .5s cubic-bezier(.34,1.56,.64,1)}
+.goal-complete-banner{display:none;margin-top:10px;padding:10px 14px;background:rgba(62,207,142,0.1);border:1px solid rgba(62,207,142,0.2);border-radius:8px;font-size:13px;color:var(--green);text-align:center}
+.goal-complete-banner.show{display:block}
+
+/* ── BADGES ── */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:500}
+.badge-blue{background:rgba(79,142,247,0.15);color:var(--accent2)}
+.badge-green{background:rgba(62,207,142,0.15);color:var(--green)}
+.badge-amber{background:rgba(245,166,35,0.15);color:var(--amber)}
+.badge-red{background:rgba(240,96,96,0.15);color:var(--red)}
+.badge-purple{background:rgba(155,127,232,0.15);color:var(--purple)}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;transition:all .15s;font-family:var(--font-body);border:none}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent2);transform:translateY(-1px)}
+.btn-secondary{background:var(--bg3);color:var(--text);border:1px solid var(--border2)}
+.btn-secondary:hover{background:rgba(255,255,255,0.05)}
+.btn-green{background:var(--green);color:#0d1a12}
+.btn-green:hover{opacity:.9}
+.btn-sm{padding:7px 13px;font-size:13px}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+/* ── INPUTS ── */
+input[type=text],input[type=password],textarea,select{background:var(--bg3);border:1px solid var(--border2);border-radius:10px;color:var(--text);font-family:var(--font-body);font-size:14px;padding:10px 14px;width:100%;outline:none;transition:border .15s}
+input[type=text]:focus,input[type=password]:focus,textarea:focus,select:focus{border-color:var(--accent)}
+textarea{resize:vertical;line-height:1.7}
+select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b8fa8' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+
+/* ── GRIDS ── */
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:700px){.grid-2,.grid-4{grid-template-columns:1fr 1fr}}
+@media(max-width:420px){.grid-4{grid-template-columns:repeat(2,1fr)}}
+
+/* ── DASHBOARD ── */
+.hero h1{font-family:var(--font-display);font-size:36px;line-height:1.2;margin-bottom:6px}
+.hero h1 em{font-style:italic;color:var(--accent2)}
+.exam-banner{background:linear-gradient(135deg,rgba(245,166,35,.07),rgba(245,166,35,.02));border:1px solid rgba(245,166,35,.2);border-radius:var(--card-r);padding:18px 22px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:12px;flex-wrap:wrap}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center}
+.stat-n{font-family:var(--font-display);font-size:30px;color:var(--text)}
+.stat-l{font-size:11px;color:var(--text3);margin-top:2px}
+.daily-skill{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;margin-bottom:8px;transition:all .15s}
+.daily-skill.done{border-color:var(--green);background:rgba(62,207,142,.04)}
+.ds-icon{font-size:20px;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ds-info{flex:1}
+.ds-name{font-weight:500;font-size:14px}
+.ds-goal{font-size:12px;color:var(--text3);margin-top:1px}
+.ds-status{margin-left:auto;font-size:13px;color:var(--text3)}
+.ds-bar{height:4px;background:var(--bg3);border-radius:2px;margin-top:6px;overflow:hidden}
+.ds-fill{height:100%;border-radius:2px;transition:width .4s ease;background:var(--accent)}
+.daily-skill.done .ds-fill{background:var(--green)}
+
+/* ── READING ── */
+.timer-display{font-family:var(--font-mono);font-size:26px;color:var(--amber);text-align:center;margin:6px 0}
+.timer-display.urgent{color:var(--red);animation:pulse .5s ease infinite alternate}
+@keyframes pulse{from{opacity:1}to{opacity:.5}}
+.passage-box{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:18px;font-size:15px;line-height:1.85;color:var(--text);margin:14px 0;max-height:280px;overflow-y:auto}
+.mcq-option{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .15s;margin-bottom:7px;background:var(--bg2)}
+.mcq-option:hover{border-color:var(--border2)}
+.mcq-option.selected{border-color:var(--accent);background:rgba(79,142,247,.07)}
+.mcq-option.correct{border-color:var(--green);background:rgba(62,207,142,.07)}
+.mcq-option.wrong{border-color:var(--red);background:rgba(240,96,96,.07)}
+.mcq-letter{width:24px;height:24px;border-radius:6px;background:var(--bg3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:12px;font-family:var(--font-mono);flex-shrink:0;font-weight:500}
+.vocab-reveal{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px;margin-top:6px}
+.vocab-row{display:flex;align-items:baseline;gap:10px;padding:5px 0;border-bottom:1px solid var(--border)}
+.vocab-fr{font-style:italic;color:var(--accent2);font-weight:500;min-width:140px}
+.vocab-en{color:var(--text2);font-size:13px}
+
+/* ── LISTENING ── */
+.resource-card{display:flex;align-items:center;gap:14px;padding:14px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;margin-bottom:9px;transition:border-color .15s}
+.resource-card:hover{border-color:var(--border2)}
+.resource-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.resource-link{margin-left:auto;font-size:12px;color:var(--accent);text-decoration:none;padding:5px 10px;border:1px solid rgba(79,142,247,.3);border-radius:6px;transition:all .15s;white-space:nowrap}
+.resource-link:hover{background:rgba(79,142,247,.1)}
+
+/* ── WRITING ── */
+.writing-prompt{background:linear-gradient(135deg,rgba(79,142,247,.07),rgba(79,142,247,.02));border:1px solid rgba(79,142,247,.2);border-radius:12px;padding:18px;margin-bottom:14px;font-size:15px;line-height:1.7}
+.prompt-label{font-size:11px;font-family:var(--font-mono);color:var(--accent);letter-spacing:.08em;margin-bottom:6px;text-transform:uppercase}
+.word-count{font-size:12px;color:var(--text3);font-family:var(--font-mono);text-align:right;margin-top:4px}
+.word-count.ok{color:var(--green)}
+
+/* ── SPEAKING ── */
+.speak-prompt{font-family:var(--font-display);font-size:22px;line-height:1.4;color:var(--text);text-align:center;padding:26px 20px;background:var(--bg3);border-radius:12px;border:1px solid var(--border);margin:14px 0}
+.speak-circle{width:110px;height:110px;border-radius:50%;border:3px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:28px;transition:border-color .3s}
+.speak-circle.running{border-color:var(--accent);box-shadow:0 0 20px rgba(79,142,247,.2)}
+.speak-circle.done{border-color:var(--green)}
+.tip-item{background:var(--bg3);border-left:3px solid var(--purple);border-radius:0 8px 8px 0;padding:9px 13px;font-size:14px;color:var(--text2);margin-bottom:7px}
+
+/* ── GRAMMAR ── */
+.conj-verb{font-family:var(--font-display);font-size:34px;color:var(--text)}
+.conj-eng{font-size:15px;color:var(--text2);margin-top:4px}
+.conj-tense{font-size:13px;color:var(--accent2);font-family:var(--font-mono);margin-top:8px}
+.conj-subject{font-size:20px;color:var(--purple);font-weight:500;margin-top:14px}
+.conj-feedback{margin-top:10px;padding:11px 15px;border-radius:10px;text-align:center;font-size:15px}
+.conj-feedback.correct{background:rgba(62,207,142,.1);border:1px solid rgba(62,207,142,.2);color:var(--green)}
+.conj-feedback.wrong{background:rgba(240,96,96,.1);border:1px solid rgba(240,96,96,.2);color:var(--red)}
+.full-conj-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:14px}
+.fc-row{display:flex;gap:8px;padding:6px 9px;border-radius:7px;font-size:13px;background:var(--bg3)}
+.fc-row.hl{background:rgba(62,207,142,.1);border:1px solid rgba(62,207,142,.2)}
+.fc-s{color:var(--text3);min-width:76px;font-size:12px}
+.fc-f{color:var(--text);font-style:italic;font-weight:500}
+.fc-f.hl{color:var(--green)}
+.acc{padding:4px 9px;background:var(--bg3);border:1px solid var(--border2);border-radius:6px;color:var(--text2);font-size:13px;cursor:pointer;font-family:var(--font-mono)}
+.acc:hover{color:var(--text);border-color:var(--accent)}
+
+/* ── VOCAB ── */
+.flashcard{perspective:800px;height:180px;cursor:pointer;margin:14px 0}
+.flashcard-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.flashcard.flipped .flashcard-inner{transform:rotateY(180deg)}
+.flashcard-front,.flashcard-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.flashcard-front{background:var(--bg2);border:1px solid var(--border2)}
+.flashcard-back{background:linear-gradient(135deg,rgba(79,142,247,.1),rgba(62,207,142,.1));border:1px solid rgba(79,142,247,.2);transform:rotateY(180deg)}
+.card-word{font-family:var(--font-display);font-size:30px;color:var(--text)}
+.card-hint{font-size:12px;color:var(--text3)}
+.card-translation{font-family:var(--font-display);font-size:26px;color:var(--accent2);font-style:italic}
+.card-example{font-size:13px;color:var(--text2);text-align:center;padding:0 14px}
+/* vocab typing mode */
+.vocab-input-row{display:flex;gap:8px;margin-top:10px}
+.vocab-check-result{margin-top:8px;padding:10px 14px;border-radius:8px;font-size:14px;text-align:center}
+.vocab-check-result.correct{background:rgba(62,207,142,.1);border:1px solid rgba(62,207,142,.2);color:var(--green)}
+.vocab-check-result.wrong{background:rgba(240,96,96,.1);border:1px solid rgba(240,96,96,.2);color:var(--red)}
+
+/* ── FEEDBACK ── */
+.fb-tab{padding:8px 15px;border-radius:8px;background:var(--bg2);border:1px solid var(--border);color:var(--text2);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;font-family:var(--font-body)}
+.fb-tab:hover{color:var(--text);border-color:var(--border2)}
+.fb-tab.active{background:rgba(79,142,247,.12);color:var(--accent2);border-color:rgba(79,142,247,.3)}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">🇫🇷 <span>TEF</span>prep</div>
+  <div class="nav-links">
+    <button class="nav-link active" onclick="showPage('dashboard')">Dashboard</button>
+    <button class="nav-link" onclick="showPage('reading')">Reading</button>
+    <button class="nav-link" onclick="showPage('listening')">Listening</button>
+    <button class="nav-link" onclick="showPage('writing')">Writing</button>
+    <button class="nav-link" onclick="showPage('speaking')">Speaking</button>
+    <button class="nav-link" onclick="showPage('grammar')">Grammar</button>
+    <button class="nav-link" onclick="showPage('vocab')">Vocab</button>
+    <button class="nav-link" onclick="showPage('feedback')" style="color:var(--amber)">⚡ Feedback</button>
+  </div>
+  <div class="nav-right">
+    <div class="countdown-nav" id="nav-countdown">— days</div>
+    <div style="display:flex;align-items:center;gap:4px" title="Sync status">
+      <span class="sync-dot" id="sync-status-dot">●</span>
+      <span style="font-family:var(--font-mono);font-size:11px;color:var(--text3)" id="sync-status-label">—</span>
+    </div>
+    <button class="hamburger" onclick="toggleMobileMenu()" id="hamburger-btn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <button class="mobile-nav-link active" onclick="showPage('dashboard');closeMobileMenu()">🏠 Dashboard</button>
+  <button class="mobile-nav-link" onclick="showPage('reading');closeMobileMenu()">📖 Reading</button>
+  <button class="mobile-nav-link" onclick="showPage('listening');closeMobileMenu()">🎧 Listening</button>
+  <button class="mobile-nav-link" onclick="showPage('writing');closeMobileMenu()">✍️ Writing</button>
+  <button class="mobile-nav-link" onclick="showPage('speaking');closeMobileMenu()">🗣️ Speaking</button>
+  <button class="mobile-nav-link" onclick="showPage('grammar');closeMobileMenu()">🔤 Grammar</button>
+  <button class="mobile-nav-link" onclick="showPage('vocab');closeMobileMenu()">📚 Vocab</button>
+  <button class="mobile-nav-link" onclick="showPage('feedback');closeMobileMenu()" style="color:var(--amber)">⚡ Feedback</button>
+  <div style="padding:12px 16px;border-top:1px solid var(--border);margin-top:4px;display:flex;justify-content:space-between;align-items:center">
+    <div class="countdown-nav" id="mobile-countdown">— days</div>
+    <div style="font-size:12px;color:var(--text3)">TEF: Oct 31, 2026</div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="page-dashboard" class="page active">
+  <div class="hero" style="margin-bottom:20px">
+    <h1>Bonjour,<br><em>let's get to CLB 7.</em></h1>
+    <p style="color:var(--text2);font-size:15px;margin-top:4px">TEF Canada · October 31, 2026</p>
+  </div>
+  <div class="exam-banner">
+    <div>
+      <div style="font-family:var(--font-display);font-size:44px;color:var(--amber);line-height:1" id="days-left">—</div>
+      <div style="font-size:13px;color:var(--text2);margin-top:3px">days until TEF Canada</div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-size:13px;color:var(--text2)">Target</div>
+      <div style="font-size:18px;font-weight:500;color:var(--amber)">CLB 7</div>
+      <div class="badge badge-amber" id="clb-badge" style="margin-top:6px">CLB 4–5</div>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:18px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <div class="card-title" style="font-size:17px">CLB Progress</div>
+      <div style="font-size:12px;color:var(--text3)" id="clb-label">Estimated from practice scores</div>
+    </div>
+    <div style="font-size:11px;color:var(--text3);font-family:var(--font-mono);display:flex;justify-content:space-between;margin-bottom:5px">
+      <span>CLB 1</span><span>CLB 3</span><span>CLB 5 ◀ you</span><span>CLB 7 🎯</span><span>CLB 10</span>
+    </div>
+    <div class="progress-track" style="height:10px">
+      <div class="progress-fill" id="clb-bar" style="width:40%;background:linear-gradient(90deg,var(--green),var(--accent))"></div>
+    </div>
+  </div>
+  <div class="grid-4" style="margin-bottom:18px">
+    <div class="stat-card"><div class="stat-n" id="stat-streak">0</div><div class="stat-l">🔥 streak</div></div>
+    <div class="stat-card"><div class="stat-n" id="stat-sessions">0</div><div class="stat-l">sessions</div></div>
+    <div class="stat-card"><div class="stat-n" id="stat-grammar">—</div><div class="stat-l">grammar %</div></div>
+    <div class="stat-card"><div class="stat-n" id="stat-reading">—</div><div class="stat-l">reading %</div></div>
+  </div>
+  <div style="font-size:13px;color:var(--text2);font-weight:500;margin-bottom:10px" id="daily-header">Today's goals</div>
+  <div id="daily-skills-list"></div>
+</div>
+
+<!-- READING -->
+<div id="page-reading" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-family:var(--font-display);font-size:26px">Compréhension de l'écrit</h2>
+      <div style="color:var(--text2);font-size:13px;margin-top:3px">Timed passages · multiple choice · key vocabulary</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <select id="reading-difficulty" style="width:130px" onchange="loadPassage()">
+        <option value="b1">B1 level</option>
+        <option value="b2" selected>B2 level</option>
+      </select>
+      <button class="btn btn-secondary btn-sm" onclick="loadPassage()">New passage</button>
+    </div>
+  </div>
+  <div id="reading-goal-bar"></div>
+  <div class="grid-2" style="margin-bottom:14px">
+    <div class="card card-sm" style="text-align:center">
+      <div style="font-size:11px;color:var(--text3);font-family:var(--font-mono)">TIME REMAINING</div>
+      <div class="timer-display" id="reading-timer">15:00</div>
+      <div style="display:flex;gap:7px;justify-content:center;margin-top:7px">
+        <button class="btn btn-primary btn-sm" id="reading-start-btn" onclick="startReadingTimer()">Start timer</button>
+        <button class="btn btn-secondary btn-sm" onclick="resetReading()">Reset</button>
+      </div>
+    </div>
+    <div class="card card-sm">
+      <div style="font-size:11px;color:var(--text3);font-family:var(--font-mono);margin-bottom:6px">PASSAGE</div>
+      <div id="passage-topic" style="font-weight:500;font-size:15px;color:var(--text)">—</div>
+      <div id="passage-source" style="font-size:12px;color:var(--text3);margin-top:3px">—</div>
+      <div style="margin-top:7px" id="reading-score-badge"></div>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:18px">
+    <div class="passage-box" id="passage-text">Loading passage...</div>
+  </div>
+  <div id="questions-container"></div>
+  <div id="reading-result"></div>
+  <div id="passage-vocab-section"></div>
+</div>
+
+<!-- LISTENING -->
+<div id="page-listening" class="page">
+  <h2 style="font-family:var(--font-display);font-size:26px;margin-bottom:6px">Compréhension de l'oral</h2>
+  <p style="color:var(--text2);margin-bottom:18px;font-size:14px">Listen to today's resource · answer comprehension questions</p>
+  <div id="listening-goal-bar"></div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title" style="margin-bottom:4px;font-size:17px">📅 Today's task</div>
+    <div id="listening-task" style="background:var(--bg3);border-radius:10px;padding:14px;font-size:14px;line-height:1.7;margin:12px 0"></div>
+    <button class="btn btn-secondary btn-sm" onclick="newListeningTask()">Different task</button>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title" style="font-size:17px;margin-bottom:4px">Resources</div>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:14px">Target: 25–30 min of French audio</div>
+    <div class="resource-card"><div class="resource-icon" style="background:rgba(62,207,142,.1)">🎙️</div><div><div style="font-weight:500;font-size:14px">InnerFrench Podcast</div><div style="font-size:13px;color:var(--text2)">B1/B2 · slow clear French · ideal for your level</div></div><a href="https://innerfrench.com" target="_blank" class="resource-link">Open →</a></div>
+    <div class="resource-card"><div class="resource-icon" style="background:rgba(79,142,247,.1)">📻</div><div><div style="font-weight:500;font-size:14px">RFI Journal en français facile</div><div style="font-size:13px;color:var(--text2)">Daily news · clearly spoken · 10 min · free</div></div><a href="https://www.rfi.fr/fr/podcasts/journal-en-fran%C3%A7ais-facile/" target="_blank" class="resource-link">Open →</a></div>
+    <div class="resource-card"><div class="resource-icon" style="background:rgba(245,166,35,.1)">📺</div><div><div style="font-weight:500;font-size:14px">TV5Monde</div><div style="font-size:13px;color:var(--text2)">French TV · news · exercises · free online</div></div><a href="https://www.tv5monde.com" target="_blank" class="resource-link">Open →</a></div>
+    <div class="resource-card"><div class="resource-icon" style="background:rgba(155,127,232,.1)">🎥</div><div><div style="font-weight:500;font-size:14px">Easy French (YouTube)</div><div style="font-size:13px;color:var(--text2)">Street interviews · subtitled · natural speech</div></div><a href="https://www.youtube.com/@EasyFrench" target="_blank" class="resource-link">Open →</a></div>
+    <div class="resource-card"><div class="resource-icon" style="background:rgba(62,207,207,.1)">📡</div><div><div style="font-weight:500;font-size:14px">France 24 en français</div><div style="font-size:13px;color:var(--text2)">Live French news · authentic speed · B2/C1</div></div><a href="https://www.france24.com/fr/" target="_blank" class="resource-link">Open →</a></div>
+  </div>
+  <div class="card">
+    <div class="card-title" style="font-size:17px;margin-bottom:4px">Comprehension check</div>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:12px">After listening, answer these questions in French</div>
+    <div id="listening-questions"></div>
+    <button class="btn btn-secondary btn-sm" style="margin-top:10px" onclick="newListeningQuestions()">New questions</button>
+    <div style="margin-top:14px">
+      <textarea id="listening-answers" rows="5" placeholder="Écrivez vos réponses ici en français..."></textarea>
+      <div style="display:flex;gap:8px;margin-top:10px;align-items:center">
+        <button class="btn btn-primary btn-sm" onclick="submitListeningAnswers()">Submit answers ✓</button>
+        <span id="listening-saved" style="font-size:13px;color:var(--green);opacity:0;transition:opacity .3s">Done ✓</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WRITING -->
+<div id="page-writing" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-family:var(--font-display);font-size:26px">Expression écrite</h2>
+      <p style="color:var(--text2);font-size:13px;margin-top:3px">TEF tasks · AI feedback on submit</p>
+    </div>
+    <div style="display:flex;gap:7px;flex-wrap:wrap">
+      <button class="btn btn-secondary btn-sm" id="task1-btn" onclick="setWritingTask(1)" style="border-color:var(--accent);color:var(--accent2)">Task 1 — Informal</button>
+      <button class="btn btn-secondary btn-sm" id="task2-btn" onclick="setWritingTask(2)">Task 2 — Formal</button>
+      <button class="btn btn-secondary btn-sm" onclick="newWritingPrompt()">New prompt</button>
+    </div>
+  </div>
+  <div id="writing-goal-bar"></div>
+  <div class="card card-sm" style="margin-bottom:14px;background:rgba(79,142,247,.04);border-color:rgba(79,142,247,.2)">
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <div id="task-type-badge" class="badge badge-blue">Task 1</div>
+      <div id="task-target-words" style="font-size:13px;color:var(--text2)">Target: 60–80 words</div>
+      <div id="writing-api-status" style="margin-left:auto;font-size:12px;color:var(--text3)"></div>
+    </div>
+  </div>
+  <div class="writing-prompt" id="writing-prompt-box">
+    <div class="prompt-label">Your prompt</div>
+    <div id="writing-prompt-text">Loading...</div>
+  </div>
+  <textarea id="writing-textarea" rows="9" placeholder="Écrivez votre réponse ici..." oninput="updateWordCount()"></textarea>
+  <div class="word-count" id="word-count">0 words</div>
+  <div style="display:flex;gap:8px;margin-top:14px;align-items:center;flex-wrap:wrap">
+    <button class="btn btn-primary" onclick="submitWritingWithFeedback()" id="writing-submit-btn">Submit & get feedback</button>
+    <button class="btn btn-secondary btn-sm" onclick="clearWriting()">Clear</button>
+    <div style="margin-left:auto;font-size:13px;color:var(--green);opacity:0;transition:opacity .3s" id="writing-saved">Saved ✓</div>
+  </div>
+  <div id="writing-feedback-result" style="margin-top:16px"></div>
+</div>
+
+<!-- SPEAKING -->
+<div id="page-speaking" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-family:var(--font-display);font-size:26px">Expression orale</h2>
+      <p style="color:var(--text2);font-size:13px;margin-top:3px">TEF oral tasks · timed practice</p>
+    </div>
+    <div style="display:flex;gap:7px;flex-wrap:wrap">
+      <button class="btn btn-secondary btn-sm" id="speak1-btn" onclick="setSpeakingTask(1)" style="border-color:var(--purple);color:var(--purple)">Task 1</button>
+      <button class="btn btn-secondary btn-sm" id="speak2-btn" onclick="setSpeakingTask(2)">Task 2</button>
+      <button class="btn btn-secondary btn-sm" id="speak3-btn" onclick="setSpeakingTask(3)">Task 3</button>
+      <button class="btn btn-secondary btn-sm" onclick="newSpeakingPrompt()">New prompt</button>
+    </div>
+  </div>
+  <div id="speaking-goal-bar"></div>
+  <div class="card card-sm" style="margin-bottom:14px;background:rgba(155,127,232,.04);border-color:rgba(155,127,232,.2)">
+    <div id="speaking-task-desc" style="font-size:14px;color:var(--text2)">Task 1 — Describe a photo or scene in detail (2 minutes)</div>
+  </div>
+  <div class="speak-prompt" id="speaking-prompt-text">Loading...</div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:8px;margin:18px 0">
+    <div class="speak-circle" id="speak-circle"><span id="speak-time-display">2:00</span></div>
+    <div style="font-size:13px;color:var(--text3)" id="speak-status">Press Start when ready</div>
+  </div>
+  <div style="display:flex;gap:8px;justify-content:center;margin-bottom:22px">
+    <button class="btn btn-primary" id="speak-start-btn" onclick="startSpeakingTimer()">▶ Start</button>
+    <button class="btn btn-secondary" onclick="resetSpeaking()">↺ Reset</button>
+  </div>
+  <div class="card" style="margin-bottom:14px">
+    <div class="card-title" style="font-size:17px;margin-bottom:10px">Tips for this task</div>
+    <div id="speaking-tips"></div>
+  </div>
+  <div class="card">
+    <div class="card-title" style="font-size:17px;margin-bottom:8px">Useful phrases</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px" id="useful-phrases"></div>
+  </div>
+</div>
+
+<!-- GRAMMAR -->
+<div id="page-grammar" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-family:var(--font-display);font-size:26px">Grammar & Conjugation</h2>
+      <p style="color:var(--text2);font-size:13px;margin-top:3px">All TEF tenses · type your answer</p>
+    </div>
+    <div style="display:flex;gap:7px;flex-wrap:wrap">
+      <select id="grammar-tense" style="width:150px" onchange="newConjQuestion()">
+        <option value="all">All tenses</option>
+        <option value="present">Présent</option>
+        <option value="pc">Passé composé</option>
+        <option value="imparfait">Imparfait</option>
+        <option value="futur">Futur simple</option>
+        <option value="conditionnel">Conditionnel</option>
+        <option value="subjonctif">Subjonctif</option>
+        <option value="imperatif">Impératif</option>
+      </select>
+      <select id="grammar-group" style="width:130px" onchange="newConjQuestion()">
+        <option value="all">All groups</option>
+        <option value="er">Group 1 (-ER)</option>
+        <option value="ir">Group 2 (-IR)</option>
+        <option value="irr">Irregular</option>
+      </select>
+    </div>
+  </div>
+  <div id="grammar-goal-bar"></div>
+  <div class="grid-4" style="margin-bottom:16px">
+    <div class="stat-card"><div class="stat-n" id="g-done">0</div><div class="stat-l">answered</div></div>
+    <div class="stat-card"><div class="stat-n" id="g-correct">0</div><div class="stat-l">correct</div></div>
+    <div class="stat-card"><div class="stat-n" id="g-pct">—</div><div class="stat-l">accuracy</div></div>
+    <div class="stat-card"><div class="stat-n" id="g-streak">0</div><div class="stat-l">streak 🔥</div></div>
+  </div>
+  <div class="card">
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
+      <span style="font-size:12px;color:var(--text3);align-self:center">Accents:</span>
+    </div>
+    <div style="text-align:center;padding:20px 0">
+      <div class="conj-verb" id="g-verb">—</div>
+      <div class="conj-eng" id="g-eng">—</div>
+      <div class="conj-tense" id="g-tense">—</div>
+      <div class="conj-subject" id="g-subject">—</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <input type="text" id="g-input" placeholder="Type conjugation..." autocomplete="off" autocorrect="off" spellcheck="false" style="font-size:17px;font-style:italic;font-family:var(--font-mono)">
+      <button class="btn btn-primary" onclick="checkGrammar()">Check</button>
+    </div>
+    <div id="g-feedback"></div>
+    <div id="g-full-conj"></div>
+    <div style="display:flex;justify-content:center;margin-top:14px">
+      <button class="btn btn-secondary" id="g-next-btn" style="display:none" onclick="newConjQuestion()">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- VOCAB -->
+<div id="page-vocab" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-family:var(--font-display);font-size:26px">Vocabulary Trainer</h2>
+      <p style="color:var(--text2);font-size:13px;margin-top:3px">Type your answer · then reveal</p>
+    </div>
+    <select id="vocab-theme" style="width:170px" onchange="loadVocabCard()">
+      <option value="all">All themes</option>
+      <option value="work">Work & Career</option>
+      <option value="immigration">Immigration</option>
+      <option value="society">Society & Politics</option>
+      <option value="daily">Daily Life</option>
+      <option value="health">Health</option>
+      <option value="environment">Environment</option>
+      <option value="connectors">Connectors</option>
+    </select>
+  </div>
+  <div id="vocab-goal-bar"></div>
+  <div class="grid-4" style="margin-bottom:14px">
+    <div class="stat-card"><div class="stat-n" id="v-seen">0</div><div class="stat-l">seen</div></div>
+    <div class="stat-card"><div class="stat-n" id="v-correct">0</div><div class="stat-l">correct</div></div>
+    <div class="stat-card"><div class="stat-n" id="v-review">0</div><div class="stat-l">to review</div></div>
+    <div class="stat-card"><div class="stat-n" id="v-pct">—</div><div class="stat-l">accuracy</div></div>
+  </div>
+  <div class="card">
+    <div style="text-align:center;padding:20px 0 10px">
+      <div style="font-size:12px;color:var(--text3);margin-bottom:8px;font-family:var(--font-mono)" id="vocab-theme-label">—</div>
+      <div class="card-word" id="fc-word" style="font-size:32px">—</div>
+      <div class="card-hint" id="fc-type" style="margin-top:4px">—</div>
+    </div>
+    <div class="vocab-input-row">
+      <input type="text" id="vocab-answer-input" placeholder="Type the English translation..." autocomplete="off" autocorrect="off" spellcheck="false" style="font-size:15px">
+      <button class="btn btn-primary btn-sm" onclick="checkVocabAnswer()">Check</button>
+    </div>
+    <div id="vocab-check-result"></div>
+    <div id="vocab-reveal-section" style="display:none;margin-top:14px">
+      <div style="background:rgba(79,142,247,.06);border:1px solid rgba(79,142,247,.2);border-radius:10px;padding:14px;text-align:center">
+        <div style="font-family:var(--font-display);font-size:24px;color:var(--accent2);font-style:italic;margin-bottom:6px" id="fc-translation">—</div>
+        <div style="font-size:13px;color:var(--text2)" id="fc-example">—</div>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <button class="btn btn-secondary btn-sm" style="flex:1;border-color:var(--red);color:var(--red)" onclick="vocabResult('review')">🔄 Review again</button>
+        <button class="btn btn-green btn-sm" style="flex:1" onclick="vocabResult('known')">✓ Got it</button>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:12px">
+      <button class="btn btn-secondary btn-sm" onclick="loadVocabCard()">Skip →</button>
+    </div>
+  </div>
+</div>
+
+<!-- FEEDBACK -->
+<div id="page-feedback" class="page"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="sync.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script src="feedback.js"></script>
+</body>
+</html>
